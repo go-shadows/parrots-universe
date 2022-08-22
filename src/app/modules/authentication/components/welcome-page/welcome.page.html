@@ -60,5 +60,39 @@
   *ngIf="isAuth$ | async"
   class="pt-48"
 >
-  <game-list></game-list>
+  <ng-container *ngIf="tag$ | async; else makeTag">
+    <game-list></game-list>
+  </ng-container>
 </div>
+
+<ng-template #makeTag>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="24"
+  >
+    <ng-container *ngIf="fetchingTag$ | async; else doIt">
+      <div> Fetching Tag...</div>
+    </ng-container>
+
+
+  </div>
+</ng-template>
+
+<ng-template #doIt>
+  <div *ngIf="tagPending$ | async">Setting Tag</div>
+  <div *ngIf="tagMessage$ | async as tm">Error: {{ tm }}</div>
+
+  <form [formGroup]="formGroup" (ngSubmit)="handleSetTag($event)">
+    <p>
+      <mat-form-field color="primary" appearance="fill">
+        <mat-label>Tag</mat-label>
+        <input name="tag" matInput placeholder="Tag" [minLength]="4" [maxlength]="12" [formControl]="tag">
+        <mat-hint>Your tag</mat-hint>
+      </mat-form-field>
+    </p>
+    <div>
+      <button mat-stroked-button color="primary" type="submit">Set Tag</button>
+    </div>
+  </form>
+</ng-template>

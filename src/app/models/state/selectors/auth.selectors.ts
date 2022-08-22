@@ -44,3 +44,19 @@ export const selectAuthSignedOut = createSelector(
   selectAuthFeature,
   (state: AuthState) => state.signedOut,
 )
+export const selectAuthTag = createSelector(
+  selectAuthFeature,
+  (state: AuthState) => state.tag,
+)
+export const selectAuthTagPending = createSelector(
+  selectAuthFeature,
+  (state: AuthState) => state.tagPending,
+)
+export const selectAuthTagError = createSelector(
+  selectAuthFeature,
+  (state: AuthState) => state.tagMessage,
+)
+export const selectAuthFetchingTag = createSelector(
+  selectAuthFeature,
+  (state: AuthState) => state.fetchingTag,
+)

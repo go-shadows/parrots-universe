@@ -1,19 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {
-  authStateChange,
-  signIn,
+  authStateChange, fetchTag, setTag,
   signInFail,
   signInSuccess,
   signOut,
-  signUp,
   signUpFail,
   signUpSuccess
 } from '../actions/auth.actions';
 import {
+  selectAuthFetchingTag,
   selectAuthInit,
   selectAuthSession,
-  selectAuthSignedIn,
+  selectAuthSignedIn, selectAuthTag, selectAuthTagError, selectAuthTagPending,
   selectAuthUnconfirmed
 } from '../selectors/auth.selectors';
 import {filter, map} from 'rxjs';
@@ -30,8 +29,10 @@ export class AuthService {
   ) {
     this._supa.authChanges((authChangeEvent, session) => {
       this._store.dispatch(authStateChange({ authChangeEvent, session }))
+      this.fetchTag()
     })
     this._store.dispatch(authStateChange({ authChangeEvent: undefined, session: this._supa.session }))
+    this.fetchTag()
   }
 
   async signUp(opts: { email: string; password: string }) {
@@ -54,6 +55,14 @@ export class AuthService {
 
   signOut() {
     this._store.dispatch(signOut())
+  }
+
+  setTag(tag: string) {
+    this._store.dispatch(setTag({ tag, id: this._supa.user.id }))
+  }
+
+  fetchTag() {
+    this._store.dispatch(fetchTag({ id: this._supa.user.id }))
   }
 
   get init$() {
@@ -82,6 +91,22 @@ export class AuthService {
     return this._store.select(selectAuthSession).pipe(
       map(s => s?.user),
     )
+  }
+
+  get tag$() {
+    return this._store.select(selectAuthTag)
+  }
+
+  get tagPending$() {
+    return this._store.select(selectAuthTagPending)
+  }
+
+  get fetchingTag$() {
+    return this._store.select(selectAuthFetchingTag)
+  }
+
+  get tagMessage$() {
+    return this._store.select(selectAuthTagError)
   }
 
 }

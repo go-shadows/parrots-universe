@@ -1,7 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
 import {Session} from '@supabase/supabase-js';
 import {
-  authStateChange,
+  authStateChange, fetchTag, fetchTagFail, fetchTagSuccess, setTag, setTagFail, setTagSuccess,
   signIn,
   signInFail,
   signInSuccess,
@@ -26,6 +26,10 @@ export interface AuthState {
   signedUp: boolean;
   signingOut: boolean;
   signedOut: boolean;
+  tag?: string;
+  tagPending?: boolean;
+  tagMessage?: string;
+  fetchingTag?: boolean;
 }
 
 export const initialState: AuthState = {
@@ -58,4 +62,10 @@ export const authReducer = createReducer(
   on(signOut, state => ({ ...state, signingOut: true })),
   on(signOutSuccess, state => ({ ...state, signingOut: false, signedOut: true })),
   on(signOutFail, state => ({ ...state, signingOut: false })),
+  on(setTag, state => ({ ...state, tagPending: true, tagMessage: undefined })),
+  on(setTagSuccess, (state, { tag }) => ({ ...state, tag, tagPending: false, tagMessage: undefined })),
+  on(setTagFail, state => ({ ...state, tagPending: false, tagMessage: 'Could not set tag' })),
+  on(fetchTag, state => ({ ...state, fetchingTag: true, tagMessage: undefined })),
+  on(fetchTagSuccess, (state, { tag }) => ({ ...state, tag, fetchingTag: false, tagPending: false, tagMessage: undefined })),
+  on(fetchTagFail, state => ({ ...state, fetchingTag: false, tagMessage: 'Could not fetch tag' })),
 )
