@@ -17,8 +17,7 @@ https://github.com/pyvelepor
 - Store game results (leaderboard)
 - Modify some game info (levels)
 
-# Demos
-- [Basic non-custom domain (might need in case domain changes did not propagate yet)](https://parrot-universe-meh-coffee.web.app)
+# Demo
 - [Ballin custom domain](https://meh.coffee)
 
 # Instructions
