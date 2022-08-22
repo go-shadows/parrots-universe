@@ -1,0 +1,64 @@
+<div
+  id="wrap"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="40"
+  >
+    <img src="assets/gifs/opensourceparrot.gif">
+    <div id="pu">Parrots Universe</div>
+    <img src="assets/gifs/supabase-party-4.gif">
+  </div>
+</div>
+
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  fxLayoutGap="24"
+>
+
+  <ng-container *ngIf="((isSignUp$ | async) || (isSignIn$ | async)); else orElse">
+    <button mat-stroked-button color="warn" (click)="cancel()">Cancel</button>
+  </ng-container>
+
+  <ng-template #orElse>
+
+    <ng-container *ngIf="unconfirmed$ | async">
+      <div>Awaiting email confirmation</div>
+      <div>Please check for a confirmation email at</div>
+      <div>{{ sentToEmail$ | async }}</div>
+      <button mat-stroked-button color="primary" (click)="signOut()">Sign Out</button>
+    </ng-container>
+
+    <ng-container *ngIf="!(unconfirmed$ | async) && !(isAuth$ | async)">
+      <button mat-stroked-button color="primary" (click)="signIn()">Sign In</button>
+      <button mat-stroked-button color="primary" (click)="signUp()">Sign Up</button>
+    </ng-container>
+
+    <ng-container *ngIf="isAuth$ | async">
+      <div>You are signed in!</div>
+      <button mat-stroked-button color="primary" (click)="signOut()">Sign Out</button>
+    </ng-container>
+
+  </ng-template>
+
+</div>
+
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  fxLayoutGap="24"
+>
+  <sign-in-page *ngIf="isSignIn$ | async" (signIn)="onSignIn($event)"></sign-in-page>
+  <sign-up-page *ngIf="isSignUp$ | async" (signUp)="onSignUp($event)"></sign-up-page>
+</div>
+
+<div
+  *ngIf="isAuth$ | async"
+  class="pt-48"
+>
+  <game-list></game-list>
+</div>

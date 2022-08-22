@@ -1,0 +1,37 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+  >
+    <div>
+      <h1>Sign Up</h1>
+      <h1>Supabase + Angular</h1>
+      <p>Sign up via email and password</p>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="handleSignUp($event)">
+      <p>
+        <mat-form-field color="primary" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input name="email" matInput placeholder="Email" [formControl]="email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-hint>Your email</mat-hint>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input name="password" matInput placeholder="Password" [formControl]="password">
+          <mat-icon matSuffix>lock</mat-icon>
+          <mat-hint>Your Password</mat-hint>
+        </mat-form-field>
+      </p>
+      <div>
+        <button mat-stroked-button color="primary" type="submit">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</div>
+

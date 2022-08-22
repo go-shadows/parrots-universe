@@ -1,0 +1,26 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  fxLayoutGap="24"
+>
+  <ng-container [ngSwitch]="authState$ | async">
+    <ng-container *ngSwitchCase="authOptions.NO_AUTH">
+      <button mat-flat-button (click)="signIn()">Sign In</button>
+      <button mat-flat-button (click)="signUp()">Sign Up</button>
+    </ng-container>
+    <ng-container *ngSwitchCase="authOptions.SIGNED_IN_UNCONFIRMED">
+      <div>Awaiting email confirmation</div>
+      <div>Please check for a confirmation email at</div>
+      <div>{{ sentToEmail$ | async }}</div>
+      <button mat-flat-button (click)="signOut()">Sign Out</button>
+    </ng-container>
+    <ng-container *ngSwitchCase="authOptions.SIGNED_IN">
+      <div>You are signed in!</div>
+      <button mat-flat-button (click)="signOut()">Sign Out</button>
+    </ng-container>
+    <ng-container *ngSwitchCase="authOptions.SIGNED_OUT">
+      <div>You have signed out successfully</div>
+      <button mat-flat-button (click)="signIn()">Sign In</button>
+    </ng-container>
+  </ng-container>
+</div>

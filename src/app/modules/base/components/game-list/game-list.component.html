@@ -1,0 +1,36 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="24"
+  >
+    <div class="game-title">Simple Supa Collector</div>
+
+    <div>
+      A simple game from the Phaser3 tutorials with a little twist!
+    </div>
+
+    <button class="larger" mat-stroked-button color="primary" (click)="trySimpleSupaCollector()">
+      Try it!
+    </button>
+
+    <h2>
+      High Scores:
+    </h2>
+
+    <div
+      *ngFor="let d of highScores$ | async; let index = index"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="24"
+    >
+      <div>Rank: {{ index }}</div>
+      <div>Gamer: {{ d.tag_name }}</div>
+      <div>Score: {{ d.score }}</div>
+      <div>Date: {{ d.created_at | date: 'YYYY-MM-dd HH:mm' }}</div>
+    </div>
+  </div>
+</div>
