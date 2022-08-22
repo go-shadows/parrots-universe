@@ -58,11 +58,13 @@ export class AuthService {
   }
 
   setTag(tag: string) {
-    this._store.dispatch(setTag({ tag, id: this._supa.user.id }))
+    if (this._supa.user?.id)
+      this._store.dispatch(setTag({ tag, id: this._supa.user.id }))
   }
 
   fetchTag() {
-    this._store.dispatch(fetchTag({ id: this._supa.user.id }))
+    if (this._supa.user?.id)
+      this._store.dispatch(fetchTag({ id: this._supa.user.id }))
   }
 
   get init$() {
